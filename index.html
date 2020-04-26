@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <h1 style="position: absolute;left: 100px;top: 0px;">WELCOME</h1>
+    <button id="start" style="height:100px;width:200px;position: absolute;left: 100px;top: 100px;">START</button>
+    
+    <script type = "text/javascript">
+      
+      const ipcRenderer = require('electron').ipcRenderer; 
+      const btnclick = document.getElementById('start');
+      ipcRenderer.on('complete', function(event,param) {
+            btnclick.disabled = false;
+        });
+    
+      function f() {
+          var arg ="start_signal";
+          console.log("Pressed");
+          btnclick.disabled = true;
+         //send the info to main process . we can pass any arguments as second param.
+          ipcRenderer.send("btnclick", arg); // ipcRender.send will pass the information to main process
+          
+        }
+      btnclick.addEventListener('click', f);
+      </script>
+  </body>
+</html>

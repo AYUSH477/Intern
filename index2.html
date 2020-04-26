@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shell Output!</title>
+  </head>
+  <body>
+    <h1>Shell Output</h1>
+    
+    <hr>
+    <textarea rows="20" cols="90" id="command-output" disabled="true"></textarea>
+    <div id="status"></div>
+    <hr>
+    <script type = "text/javascript">
+        function getCommandOutput() { return document.getElementById("command-output");  };
+        function getStatus() { return document.getElementById("status");  };
+    </script>
+    <script src="run_sh.js"></script>
+    <script type = "text/javascript">
+        const ipcRenderer = require('electron').ipcRenderer; 
+        ipcRenderer.on('start_script', function(event,param) {
+            var msg = '';
+            getCommandOutput().value = (msg);
+            backgroundProcess(param);
+        });
+    </script>
+    
+  </body>
+</html>

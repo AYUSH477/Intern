@@ -1,0 +1,24 @@
+{
+  "name": "small-app",
+  "version": "1.0.0",
+  "description": "A small app",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . small-app --overwrite --platform=darwin --arch=x64 --out=release-builds-mac",
+    "package-win": "electron-packager . small-app --overwrite --platform=win32 --arch=ia32 --out=release-builds-win",
+    "package-linux": "electron-packager . small-app --overwrite --platform=linux --arch=x64 --out=release-builds-linux",
+    "setup": "electron-installer-windows --src release-builds-win/small-app-win32-ia32/ --dest release-builds-win/installers/"
+  },
+  "author": "Ayush",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^8.2.3",
+    "electron-builder": "^22.5.1",
+    "electron-installer-windows": "^3.0.0",
+    "electron-packager": "^14.2.1"
+  },
+  "dependencies": {
+    "electron-is": "^3.0.0"
+  }
+}
