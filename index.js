@@ -27,45 +27,44 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
-  //const {ipcMain} = require('electron').ipcMain;
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
+ 
+  mainWindow = new BrowserWindow({  // Create the browser window.
     webPreferences: {
       nodeIntegration: true
-    },width: 600, height: 600, x: 0, y:0});
-  statusWindow = new BrowserWindow({webPreferences: {
+    },width: 600, height: 600, x: 0, y:0}); // specifying the  width of the main WIndow
+    
+  statusWindow = new BrowserWindow({webPreferences: { // create the status window 
     nodeIntegration: true
-  },width: 800, height: 600, x: 590, y: 0, parent: mainWindow});
-  // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
-  statusWindow.loadURL('file://' + __dirname + '/index2.html');
-  statusWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+  },width: 800, height: 600, x: 590, y: 0, parent: mainWindow}); // setting main window as the parent
+  
+  mainWindow.loadURL('file://' + __dirname + '/index.html'); // and load the index.html of the app.
+  statusWindow.loadURL('file://' + __dirname + '/index2.html'); // load the index2.html of the app.
+  statusWindow.on('closed', function() { 
+    // Dereference the window object
     statusWindow = null;
   });
   // Open the DevTools.
  // mainWindow.openDevTools();    // requires a height 410px 
   
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+  
+  mainWindow.on('closed', function() { // Emitted when the window is closed.
+    // Dereference the window object
     mainWindow = null;
   });
   
   
 });
-
+// Once the btnclick signal is received, send start_script signal to statusWindow
 ipcMain.on("btnclick",function (event, arg) {
     statusWindow.webContents.send("start_script", app.getAppPath()); 
   });
 
+  // Prints the data received from the render process in the console
   ipcMain.on("data",function (event, arg) {
     console.log(arg); 
   });
+  // sends the complete signal to the index.html render process once the script's execution is
+  //complete (reactivates the button)
   ipcMain.on("complete", function (event, arg) {
     mainWindow.webContents.send("complete", arg); 
   });
